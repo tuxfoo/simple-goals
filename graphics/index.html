@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      .goal-wrapper {
+        height: 40px;
+        background: #dddddd;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 3px #222;
+      }
+      .current-amount {
+        color: #000000;
+        font: 800 22px / 40px "Open Sans";
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 11;
+        text-align: center;
+        vertical-align: middle;
+      }
+      .title {
+        position: absolute;
+        top: 0px;
+        left: 10px;
+        text-shadow: 0px 0px 1px rgb(34 34 34);
+        font: 800 22px / 40px "Open Sans";
+      }
+      .amount {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        text-shadow: 0px 0px 1px rgb(34 34 34);
+        font: 800 22px / 40px "Open Sans";
+      }
+      .background {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 10;
+        box-shadow: #000000 0px 0px 2px inset;
+      }
+      .bar {
+        background: #46e65a;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 9;
+        box-shadow: 0px 0px 1px #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 10px 20px;">
+      <div class="goal-wrapper" id="goal-wrapper">
+      </div>
+    </div>
+  </body>
+  <script>
+    const settings = nodecg.Replicant('settings');
+
+    NodeCG.waitForReplicants(settings).then(() => {
+      render();
+    });
+
+    function render() {
+      var current = document.createElement("div");
+      current.setAttribute("class", "current-amount");
+      if (getPercent(settings.value.currentAmount, settings.value.goalAmount) >= 100 ){
+        var currentText = document.createTextNode("Goal Reached!  " + settings.value.currentAmount);
+      } else {
+        var currentText = document.createTextNode(settings.value.currentAmount);
+      }
+      current.appendChild(currentText);
+      current.setAttribute("style", "color:" + settings.value.textCol + ";");
+      var goalName = document.createElement("div");
+      goalName.setAttribute("class", "title");
+      var goalText = document.createTextNode(settings.value.name);
+      goalName.setAttribute("style", "color:" + settings.value.textCol + ";");
+      goalName.appendChild(goalText);
+      var goalAmount = document.createElement("div");
+      goalAmount.setAttribute("style", "color:" + settings.value.textCol + ";");
+      goalAmount.setAttribute("class", "amount");
+      var amountText = document.createTextNode(settings.value.goalAmount);
+      goalAmount.appendChild(amountText);
+      current.appendChild(goalName);
+      current.appendChild(goalAmount);
+
+      var background = document.createElement("div");
+      background.setAttribute("class", "background");
+      var bar = document.createElement("div");
+      bar.setAttribute("class", "bar");
+      bar.setAttribute("style", "background: " + settings.value.progressCol + "; width: " + getPercent(settings.value.currentAmount, settings.value.goalAmount) + "% " + ";");
+
+      var wrapper = document.getElementById("goal-wrapper");
+      wrapper.setAttribute("style", "background:" + settings.value.backgroundCol + ";");
+      wrapper.appendChild(current);
+      wrapper.appendChild(background);
+      wrapper.appendChild(bar);
+    }
+
+    function getPercent(current, total) {
+      return parseFloat(current) * 100 / parseFloat(total);
+    }
+
+    function removeAllChildren(parent) {
+      while (parent.lastElementChild) {
+        parent.removeChild(parent.lastElementChild);
+      }
+    }
+
+    settings.on('change', v => {
+      var wrap = document.getElementById("goal-wrapper");
+      removeAllChildren(wrap);
+      render();
+
+    });
+  </script>
+</html>

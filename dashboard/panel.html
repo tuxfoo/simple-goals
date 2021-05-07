@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<style>
+		.monospace {
+			font-family: monospace;
+		}
+	</style>
+  <script src="jscolor.js"></script>
+</head>
+<body>
+	<p>
+		Hello; Here you can set up a goal. It will render a progress bar for it.
+	</p>
+  <form>
+    <label for="goalName">Goal Name: </label>
+    <input id="goalName" size="8"><br>
+    <label for="goalAmount">Goal Amount: </label>
+    <input id="goalAmount" size="2"><br>
+    <label for="currentAmount">currentAmount: </label>
+    <input id="currentAmount" size="2"><br>
+    <label for="progressCol">Progress Bar Colour: </label>
+    <input id="progressCol" data-jscolor="{preset:&quot;dark large&quot;}" size="4" class="jscolor"><br>
+    <label for="textCol">Text Colour: </label>
+    <input id="textCol" data-jscolor="{preset:&quot;dark large&quot;}" size="4" class="jscolor"><br>
+    <label for="backgroundCol">Background Bar Colour: </label>
+    <input id="backgroundCol" data-jscolor="{preset:&quot;dark large&quot;}" size="4" class="jscolor"><br>
+    <label for="trigger">Trigger simple alert on goal reached (alert name): </label>
+    <input id="trigger" size="8"><br>
+    <label for="alertMessage">Alert Message: </label>
+    <input id="alertMessage" size="8"><br>
+    <button id="settings" type="submit">Save</button><br>
+  </form>
+</body>
+<script>
+  const settings = nodecg.Replicant('settings');
+
+  NodeCG.waitForReplicants(settings).then(() => {
+    loadSettings(settings.value);
+    jscolor.install();
+  });
+
+  function loadSettings (value) {
+    document.getElementById('goalName').value = value.name;
+    document.getElementById('goalAmount').value = value.goalAmount;
+    document.getElementById('currentAmount').value = value.currentAmount;
+    document.getElementById('trigger').value = value.trigger;
+    document.getElementById('alertMessage').value = value.alertMessage;
+    document.getElementById('progressCol').value = value.progressCol;
+    document.getElementById('backgroundCol').value = value.backgroundCol;
+    document.getElementById("textCol").value = value.textCol;
+  }
+  // save settings
+  document.getElementById('settings').addEventListener('click', e => {
+    settings.value = {
+      name: document.getElementById('goalName').value,
+      currentAmount: document.getElementById('currentAmount').value,
+      goalAmount: document.getElementById('goalAmount').value,
+      trigger: document.getElementById('trigger').value,
+      alertMessage: "  " + document.getElementById('alertMessage').value,
+      backgroundCol: document.getElementById('backgroundCol').value,
+      progressCol: document.getElementById('progressCol').value,
+      textCol: document.getElementById('textCol').value}
+  });
+</script>
+</html>
