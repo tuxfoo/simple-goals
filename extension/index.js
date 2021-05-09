@@ -2,7 +2,7 @@
 const request = require('request');
 
 module.exports = function (nodecg) {
-	nodecg.Replicant('settings', { defaultValue: {name: "Coffee", currentAmount: 0, goalAmount: 50, trigger: "Alert1", alertMessage: "  Goal has been reached!", progressCol: "#46e65a", textCol: "#000000", backgroundCol: "#dddddd"}});
+	nodecg.Replicant('settings', { defaultValue: {name: "Coffee", currentAmount: 0, goalAmount: 50, trigger: "Alert1", alertMessage: "  Goal has been reached!", progressCol: "#46e65a", textCol: "#000000", backgroundCol: "#dddddd", customCSS: ""}});
 	nodecg.Replicant('goalReached', {defaultValue: {goalReached: false}});
 
 	const router = nodecg.Router();

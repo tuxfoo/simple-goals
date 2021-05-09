@@ -30,6 +30,8 @@
     <input id="trigger" size="8"><br>
     <label for="alertMessage">Alert Message: </label>
     <input id="alertMessage" size="8"><br>
+    <label for="customCSS">Custom CSS</label><br>
+    <textarea id="customCSS"></textarea><br>
     <button id="settings" type="submit">Save</button><br>
   </form>
 </body>
@@ -49,7 +51,8 @@
     document.getElementById('alertMessage').value = value.alertMessage;
     document.getElementById('progressCol').value = value.progressCol;
     document.getElementById('backgroundCol').value = value.backgroundCol;
-    document.getElementById("textCol").value = value.textCol;
+    document.getElementById('textCol').value = value.textCol;
+    document.getElementById('customCSS').value = value.customCSS;
   }
   // save settings
   document.getElementById('settings').addEventListener('click', e => {
@@ -58,10 +61,11 @@
       currentAmount: document.getElementById('currentAmount').value,
       goalAmount: document.getElementById('goalAmount').value,
       trigger: document.getElementById('trigger').value,
-      alertMessage: "  " + document.getElementById('alertMessage').value,
+      alertMessage: document.getElementById('alertMessage').value,
       backgroundCol: document.getElementById('backgroundCol').value,
       progressCol: document.getElementById('progressCol').value,
-      textCol: document.getElementById('textCol').value}
+      textCol: document.getElementById('textCol').value,
+      customCSS: document.getElementById('customCSS').value}
   });
 </script>
 </html>

@@ -56,7 +56,7 @@
       }
     </style>
   </head>
-  <body>
+  <body id="body">
     <div style="padding: 10px 20px;">
       <div class="goal-wrapper" id="goal-wrapper">
       </div>
@@ -115,9 +115,23 @@
       }
     }
 
+    function updateCSS() {
+      var body = document.getElementById("body");
+
+      if (document.contains(document.getElementById("customCSS"))) {
+        document.getElementById("customCSS").remove();
+      }
+      var style = document.createElement("style");
+      style.setAttribute("id", "customCSS");
+      var userCSS = document.createTextNode(settings.value.customCSS);
+      style.appendChild(userCSS);
+      body.appendChild(style);
+    }
+
     settings.on('change', v => {
       var wrap = document.getElementById("goal-wrapper");
       removeAllChildren(wrap);
+      updateCSS();
       render();
 
     });
